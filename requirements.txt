@@ -1,6 +1,6 @@
 Flask==3.0.3
 gunicorn==21.2.0
 requests==2.31.0
-reportlab==4.0
-matplotlib==3.8.0
-pillow==10.1.0
+reportlab==3.6.12
+matplotlib==3.5.3
+Pillow==9.5.0
