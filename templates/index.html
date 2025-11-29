@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Destiny Analysis System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --cosmic-blue:#0e1b2c;
+      --starlight-gold:#c9a24a;
+      --neon-cyan:#3fd0ff;
+      --muted:#6b7280;
+      --max-width:1100px;
+    }
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;}
+    body{background:#ffffff;color:var(--cosmic-blue);-webkit-font-smoothing:antialiased;}
+    /* HERO */
+    .hero{
+      min-height:62vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background-image: url('/mnt/data/3b6b9e58-bb85-4eb0-94ad-483cf8071fd7.png');
+      background-size:cover;background-position:center;
+      position:relative;
+    }
+    .hero::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(2,6,23,0.46),rgba(2,6,23,0.5));}
+    .container{width:100%;max-width:var(--max-width);margin:0 auto;padding:28px;z-index:2;position:relative}
+    .layout{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:start}
+    .intro{color:#fff;padding:2.4rem;border-radius:16px;background:linear-gradient(135deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));box-shadow:0 10px 30px rgba(2,6,23,0.45)}
+    .intro h1{font-size:2.05rem;margin:0 0 .35rem;font-weight:800}
+    .intro p{margin:0 0 1rem;color:#d1d5db}
+    /* input card */
+    .card{background:#fff;border-radius:14px;padding:18px;box-shadow:0 8px 30px rgba(15,23,42,0.06);border:1px solid rgba(15,23,42,0.04)}
+    label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+    .field{margin-bottom:12px}
+    input,select{width:100%;padding:10px 12px;border-radius:8px;border:1px solid #e6e9ee;font-size:14px}
+    .actions{display:flex;gap:10px;margin-top:12px}
+    .btn{padding:10px 14px;border-radius:10px;cursor:pointer;border:0;font-weight:700}
+    .btn-primary{background:linear-gradient(90deg,#0b61a7,#0e9bd9);color:white}
+    .btn-ghost{background:transparent;border:1px solid #e6e9ee;color:var(--cosmic-blue)}
+    /* free result */
+    #freeResult{margin-top:18px;background:#fff;color:var(--cosmic-blue);border-radius:12px;padding:14px;box-shadow:0 6px 20px rgba(2,6,23,0.06)}
+    .pill{background:rgba(255,255,255,0.04);color:#fff;padding:6px 10px;border-radius:999px;font-weight:700}
+    /* premium */
+    .premium-card{margin-top:14px;border-radius:12px;padding:16px;background:linear-gradient(160deg,var(--cosmic-blue),#081219);color:#fff;display:flex;justify-content:space-between;align-items:center}
+    .premium-btn{
+      background: linear-gradient(135deg, var(--starlight-gold), #f2d17a);
+      color: #081219;
+      padding: 12px 18px;
+      border-radius:999px;
+      font-weight:800;
+      letter-spacing:0.01em;
+      border:none;
+      box-shadow:0 8px 30px rgba(201,162,74,0.25);
+      cursor:pointer;
+      transition: transform .22s ease, box-shadow .22s ease;
+    }
+    .premium-btn:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 16px 40px rgba(201,162,74,0.35)}
+    /* locked cards area (in hero) */
+    .lock-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
+    .locked-card{background:rgba(255,255,255,0.04);padding:12px;border-radius:10px;color:#e6edf3;position:relative;overflow:hidden}
+    .locked-card::after{content:'🔒';position:absolute;right:10px;top:10px;opacity:0.9}
+    /* main */
+    main{padding:48px 20px;background:#ffffff}
+    .info-grid{max-width:var(--max-width);margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .card-simple{background:#f8fafc;padding:16px;border-radius:12px;border:1px solid #eef2f7}
+    @media (max-width:980px){.layout{grid-template-columns:1fr}.info-grid{grid-template-columns:1fr}.lock-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <section class="hero" role="region" aria-label="Intro">
+    <div class="container">
+      <div class="layout" role="main">
+        <div class="intro">
+          <h1>Destiny Analysis System</h1>
+          <p>Instant free summary — Unlock detailed Career, Wealth, Romance, Health readings for $0.9.</p>
+
+          <div id="freeResult" aria-live="polite">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+              <div>
+                <div style="font-weight:800;font-size:15px">Free Quick Summary</div>
+                <div id="freeSummaryText" style="margin-top:8px;color:#c7d2fe">Enter your birth data and click Analyze.</div>
+              </div>
+              <div style="text-align:right">
+                <div style="font-size:12px;color:#c7d2fe">Strength</div>
+                <div id="strengthBadge" class="pill" style="background:rgba(255,255,255,0.06)">—</div>
+              </div>
+            </div>
+
+            <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+              <div style="font-size:12px;color:#c7d2fe">Element Balance</div>
+              <div id="elemBadges" style="display:flex;gap:6px"></div>
+            </div>
+          </div>
+
+          <div class="premium-card" role="region" aria-label="Premium">
+            <div>
+              <div style="font-weight:800">Detailed Destiny Report</div>
+              <div style="font-size:13px;color:rgba(255,255,255,0.85)">Full Element chart · Useful Energy · 10-God Flow · Hourly Fortune</div>
+            </div>
+            <div style="text-align:right">
+              <div style="color:#fff;font-weight:800;font-size:14px;margin-bottom:8px">$0.9</div>
+              <button id="unlockBtn" class="premium-btn" aria-label="Unlock full report for $0.9">Unlock Full Destiny • $0.9</button>
+            </div>
+          </div>
+
+          <div class="lock-grid">
+            <div class="locked-card">
+              <strong>Career Fortune</strong>
+              <div style="font-size:12px;color:rgba(255,255,255,0.75)">Professional flow, best fields, timing</div>
+            </div>
+            <div class="locked-card">
+              <strong>Wealth Fortune</strong>
+              <div style="font-size:12px;color:rgba(255,255,255,0.75)">Income cycles, investing timing</div>
+            </div>
+            <div class="locked-card">
+              <strong>Romance Fortune</strong>
+              <div style="font-size:12px;color:rgba(255,255,255,0.75)">Compatibility & relationship windows</div>
+            </div>
+            <div class="locked-card">
+              <strong>Health Fortune</strong>
+              <div style="font-size:12px;color:rgba(255,255,255,0.75)">Energy hotspots & wellness advice</div>
+            </div>
+          </div>
+
+        </div>
+
+        <aside class="card" aria-labelledby="formTitle">
+          <h3 id="formTitle" style="margin:0 0 12px 0;font-size:16px">Enter birth data</h3>
+
+          <div class="field"><label for="inpName">Name</label><input id="inpName" type="text" placeholder="John Doe" autocomplete="name"/></div>
+          <div class="field"><label for="inpDate">Date of birth</label><input id="inpDate" type="date"/></div>
+          <div class="field" style="display:flex;gap:10px">
+            <div style="flex:1"><label for="inpTime">Time (optional)</label><input id="inpTime" type="time"/></div>
+            <div style="width:120px"><label for="inpTZ">Timezone</label><select id="inpTZ"><option value="auto">Auto</option><option value="Asia/Seoul">Asia/Seoul</option><option value="UTC">UTC</option></select></div>
+          </div>
+
+          <div class="actions">
+            <button id="analyzeBtn" class="btn btn-primary">Analyze</button>
+            <button id="clearBtn" class="btn btn-ghost">Clear</button>
+          </div>
+
+          <div style="margin-top:14px;font-size:13px;color:var(--muted)">
+            <strong>Note:</strong> Full analysis uses your English notation rules (sky/earth/hidden sky & Useful/Supporting energies). This demo shows design-first PoC.
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <div class="container">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px">
+        <div><h2 style="margin:0;font-size:18px">How it works</h2><p style="margin:6px 0 0;color:#6b7280">Free summary uses simplified engine; unlocking runs full analytic engine and returns downloadable PDF.</p></div>
+        <div style="font-size:13px;color:#9ca3af">Background: White by default • Galaxy in intro only</div>
+      </div>
+
+      <div class="info-grid" role="list">
+        <div class="card-simple" role="listitem"><h4 style="margin:0 0 6px">Free Summary</h4><div style="color:#475569">Immediate snapshot of element balance and main Useful Energy</div></div>
+        <div class="card-simple" role="listitem"><h4 style="margin:0 0 6px">Premium Report</h4><div style="color:#475569">Full chart, 10-god interactions, hourly graph & downloadable PDF</div></div>
+        <div class="card-simple" role="listitem"><h4 style="margin:0 0 6px">Security</h4><div style="color:#475569">Stripe payments, minimal data retention</div></div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // --- simple deterministic demo analytic (design-first) ---
+    function pseudoSeed(s){
+      let h=0; for(let i=0;i<s.length;i++){h=(h*31+ s.charCodeAt(i))%100000; } return h;
+    }
+    function mockBalance(seed){
+      const h = pseudoSeed(seed);
+      const base = [h%22+8, (h>>2)%22+6, (h>>4)%22+6, (h>>6)%18+4, (h>>8)%20+4];
+      const total = base.reduce((a,b)=>a+b,0);
+      return base.map(v=>Math.round((v/total)*100));
+    }
+    function analyzeLocal(name,dob,time){
+      const seed = (name||'Anon') + '|' + dob + '|' + (time||'00:00');
+      const bal = mockBalance(seed);
+      const labels = ['Tree','Fire','Earth','Metal','Water'];
+      const max = Math.max(...bal); const main = labels[bal.indexOf(max)];
+      // Simple judgement: if max >= 40 strong
+      const strength = max>=40 ? 'Strong' : (max>=33? 'Moderate' : 'Weak');
+      // Generate short free summary + locked premium texts (deterministic)
+      const freeSummary = `${name||'Anonymous'} • ${dob} ${time? '• '+time : ''} — Main Useful Energy: ${main}. Strength: ${strength}.`;
+      const premium = {
+        career: `Career: ${main}-leaning profile. Best roles involve ${main==='Tree'? 'growth/creation': main==='Fire'?'leadership/marketing': main==='Earth'?'management/real-estate': main==='Metal'?'engineering/finance':'research/water-related'}.`,
+        wealth: `Wealth: Cycles favor ${main==='Metal' ? 'investment & assets' : main==='Water' ? 'liquidity & trading' : 'steady accumulation'}.`,
+        romance: `Romance: Emotional tone leans ${main==='Water' ? 'sensitive' : main==='Fire' ? 'passionate' : 'stable'}.`,
+        health: `Health: Watch energy centers linked to ${main==='Fire'?'heart/heat':main==='Water'?'kidney/fluids':main==='Metal'?'respiratory':main==='Earth'?'digestion':'general balance'}.`
+      };
+      return {bal,labels,freeSummary, strength, premium};
+    }
+
+    const analyzeBtn = document.getElementById('analyzeBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const freeSummaryText = document.getElementById('freeSummaryText');
+    const elemBadges = document.getElementById('elemBadges');
+    const strengthBadge = document.getElementById('strengthBadge');
+    const unlockBtn = document.getElementById('unlockBtn');
+
+    analyzeBtn.addEventListener('click', async ()=>{
+      const name = document.getElementById('inpName').value.trim() || 'Anonymous';
+      const dob = document.getElementById('inpDate').value;
+      const time = document.getElementById('inpTime').value || '';
+      if(!dob){alert('Please enter date of birth.'); return;}
+      // show free summary (local)
+      const res = analyzeLocal(name,dob,time);
+      elemBadges.innerHTML=''; for(let i=0;i<5;i++){const d=document.createElement('div');d.style.padding='6px 8px';d.style.borderRadius='8px';d.style.background='rgba(255,255,255,0.04)';d.style.color='#fff';d.style.fontWeight='700';d.style.fontSize='13px';d.textContent=res.labels[i]+': '+res.bal[i]+'%';elemBadges.appendChild(d);}
+      strengthBadge.textContent=res.strength; strengthBadge.style.background = res.strength==='Strong' ? 'linear-gradient(90deg,#14b8a6,#06b6d4)' : 'rgba(255,255,255,0.06)';
+      freeSummaryText.innerHTML = `<strong>${name}</strong> • ${dob} ${time? '• '+time : ''}<div style="margin-top:8px;color:#c1d2e9">${res.freeSummary}</div>`;
+
+      // send to server to precompute premium report (optional) - uncomment if backend available
+      /*
+      const payload = {name,dob,time,timezone:document.getElementById('inpTZ').value};
+      const r = await fetch('/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+      const j = await r.json();
+      // j should include premium summary preview or id for paid unlock
+      */
+    });
+
+    clearBtn.addEventListener('click', ()=>{
+      document.getElementById('inpName').value=''; document.getElementById('inpDate').value=''; document.getElementById('inpTime').value=''; document.getElementById('inpTZ').value='auto';
+      elemBadges.innerHTML=''; freeSummaryText.textContent='Enter your birth data and click Analyze.'; strengthBadge.textContent='—';
+    });
+
+    // Unlock behavior -> call backend to create payment intent (demo fallback)
+    unlockBtn.addEventListener('click', async ()=>{
+      const name = document.getElementById('inpName').value.trim() || 'Anonymous';
+      const dob = document.getElementById('inpDate').value;
+      if(!dob){alert('Please enter date of birth first.'); return;}
+      // call server to create payment (recommended)
+      try {
+        // Production: POST /create-payment-intent {name,dob,time} -> returns clientSecret -> use stripe.js
+        const r = await fetch('/create-payment-intent',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,dob,time:document.getElementById('inpTime').value})});
+        const j = await r.json();
+        if(j.checkoutUrl){
+          // redirect to hosted checkout if backend returns URL
+          window.location.href = j.checkoutUrl;
+          return;
+        }
+        if(j.clientSecret){
+          alert('Client secret received. In production use Stripe.js to confirm payment.');
+          return;
+        }
+        // fallback simulation
+        const ok = confirm('This demo will simulate a $0.9 checkout. Proceed?');
+        if(ok){ alert('Payment simulated. Premium unlocked in this demo.'); window.location.href='#premium'; }
+      } catch(e){
+        console.error(e); alert('Payment initiation failed (demo). Check server logs.');
+      }
+    });
+  </script>
+</body>
+</html>

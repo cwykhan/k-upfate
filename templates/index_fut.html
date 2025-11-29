@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Destiny Analysis System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* compact styles, same futuristic aesthetic */
+    body{margin:0;font-family:'Orbitron',sans-serif;background:radial-gradient(circle at top,#0a0f24,#000);color:#e8f1ff;min-height:100vh;display:flex;align-items:center;justify-content:center}
+    .wrap{width:96%;max-width:440px;background:rgba(8,12,30,0.8);padding:26px;border-radius:18px;box-shadow:0 12px 40px rgba(0,150,255,0.12);backdrop-filter:blur(6px)}
+    h1{text-align:center;margin:0 0 10px;font-size:20px;letter-spacing:2px}
+    .subtitle{text-align:center;color:#8faadc;margin-bottom:18px;font-size:13px}
+    label{display:block;color:#bcd7ff;font-size:12px;margin-top:12px}
+    input,select{width:100%;padding:12px;border-radius:10px;border:1px solid #132242;background:#070a18;color:#e8f1ff;margin-top:6px;font-size:14px}
+    .btn{margin-top:18px;padding:12px;border-radius:30px;border:none;background:linear-gradient(90deg,#00c6ff,#0072ff);font-weight:700;color:#001;cursor:pointer;width:100%}
+    .footer{font-size:12px;color:#7faadc;text-align:center;margin-top:12px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>DESTINY ANALYSIS SYSTEM</h1>
+    <div class="subtitle">AI SaJu Interface — precise, scientific, elegant</div>
+
+    <form id="aiForm">
+      <label for="birth_date">Birth Date</label>
+      <input id="birth_date" name="birth_date" type="date" required>
+
+      <label for="birth_time">Birth Time (HH:MM)</label>
+      <input id="birth_time" name="birth_time" type="time" required>
+
+      <label for="tz">Time Zone (optional)</label>
+      <input id="tz" name="tz" placeholder="Asia/Seoul" />
+
+      <button id="analyzeBtn" class="btn" type="submit">ANALYZE DESTINY</button>
+    </form>
+
+    <div class="footer">© Destiny Insight • AI Interface</div>
+  </div>
+
+  <script src="{{ url_for('static', filename='ai-analyze.js') }}"></script>
+</body>
+</html>

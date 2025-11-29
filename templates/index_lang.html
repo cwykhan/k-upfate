@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Destiny Analysis System</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="wrap">
+    <div class="card intro">
+      <h1>Destiny Analysis System</h1>
+      <p class="lead">AI-powered Four Pillars reading — internal engine (no external API)</p>
+      <form action="/analyze" method="post" id="analyzeForm">
+        <label>Name / 성명
+          <input name="name" type="text" placeholder="Enter your name" required>
+        </label>
+        <label>Date of birth / 생년월일
+          <input name="birth" type="date" required value="1976-09-04">
+        </label>
+        <div class="time-row">
+          <label>Hour
+            <select name="hour">{% for h in range(0,24) %}<option value="{{ '%02d'|format(h) }}">{{ '%02d'|format(h) }}</option>{% endfor %}</select>
+          </label>
+          <label>Minute
+            <select name="minute">{% for m in [0,15,30,45] %}<option value="{{ '%02d'|format(m) }}">{{ '%02d'|format(m) }}</option>{% endfor %}</select>
+          </label>
+        </div>
+        <label>Language
+          <select name="lang"><option value="en">English</option><option value="es">Español</option><option value="ko">한국어</option></select>
+        </label>
+        <div class="actions">
+          <button class="btn-primary" type="submit">Analyze</button>
+          <a class="btn-ghost" href="/download/test_pdf">Download sample PDF</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

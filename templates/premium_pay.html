@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Unlock Premium</title><link rel="stylesheet" href="/static/style.css"></head>
+<body>
+  <div class="premium-card">
+    <h1>Unlock Full Destiny Report</h1>
+    <p>{{ name }}</p>
+    <div class="price">$1.00</div>
+    <button id="buyBtn" class="btn-primary">Unlock for $1</button>
+  </div>
+
+<script src="https://cdn.paddle.com/paddle/paddle.js"></script>
+<script>
+  Paddle.Setup({ vendor: {{ paddle_vendor }} });
+  document.getElementById('buyBtn').addEventListener('click', function(){
+    Paddle.Checkout.open({
+      product: "{{ price_id }}",
+      passthrough: JSON.stringify({ name: "{{ name }}" })
+    });
+  });
+</script>
+</body>
+</html>

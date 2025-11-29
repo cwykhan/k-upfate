@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Destiny Report</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <main class="container">
+    <header class="hero">
+      <h1>{{ name }} — Destiny Report</h1>
+      <div class="meta">Birth: {{ birth }} {{ time }}</div>
+    </header>
+
+    <section class="card">
+      <h2>Four Pillars</h2>
+      <div>Year: {{ pillars.year.sky }} / {{ pillars.year.earth }} ({{ pillars.year.eng_year }})</div>
+      <div>Month: {{ pillars.month.sky }} / {{ pillars.month.earth }} ({{ pillars.month.eng_month }})</div>
+      <div>Day: {{ pillars.day.sky }} / {{ pillars.day.earth }} ({{ pillars.day.eng_day }})</div>
+      <div>Hour: {{ pillars.hour.sky }} / {{ pillars.hour.earth }} ({{ pillars.hour.eng_hour }})</div>
+    </section>
+
+    <section class="card">
+      <h2>Five Energy Distribution</h2>
+      {% for e,v in energy.items() %}
+      <div class="energy-row"><div class="ename">{{ e }}</div> <div class="epct">{{ '%.1f'|format(v) }}%</div>
+        <div class="bar"><div class="fill" style="width:{{ v }}%"></div></div>
+      </div>
+      {% endfor %}
+    </section>
+
+    <section class="card">
+      <h2>24h Useful Energy Timeline</h2>
+      <canvas id="timelineChart" style="height:240px"></canvas>
+    </section>
+
+    <section class="card">
+      <h2>Interpretation</h2>
+      <div>{{ texts.summary.lead if texts else interpretation }}</div>
+      <div style="margin-top:12px;">
+        <a class="btn-primary" href="/premium/{{ name }}">Unlock Premium — $1</a>
+      </div>
+    </section>
+  </main>
+
+<script>
+const timeline = {{ timeline | tojson }};
+const ctx = document.getElementById('timelineChart').getContext('2d');
+const gradient = ctx.createLinearGradient(0,0,0,300); gradient.addColorStop(0,'rgba(0,224,255,0.22)'); gradient.addColorStop(1,'rgba(0,102,255,0.03)');
+new Chart(ctx,{
+  type:'line',
+  data:{ labels: timeline.map((_,i)=> (i<10? '0':'') + i + ':00'), datasets:[{data:timeline, fill:true, backgroundColor:gradient, borderColor:'#00E0FF', tension:0.36, pointRadius:2}]},
+  options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{ y:{beginAtZero:true, max:100}}}
+});
+</script>
+</body>
+</html>
