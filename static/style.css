@@ -2,8 +2,14 @@
 body{margin:0;font-family:Inter,system-ui,Arial;background:radial-gradient(1000px 500px at 10% 10%, #04202B 0%, #000 60%);color:#e7fbff}
 .container{max-width:1080px;margin:28px auto;padding:18px}
 .card{background:var(--card);padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,0.02);margin-bottom:16px}
-.btn-primary{background:linear-gradient(90deg,var(--accent),#0066ff);border-radius:10px;padding:10px 14px;color:#001;text-decoration:none;font-weight:700;border:none}
+.btn-primary{background:linear-gradient(90deg,var(--accent),#0066ff);border-radius:10px;padding:10px 14px;color:#001;text-decoration:none;font-weight:700;border:none;cursor:pointer}
+.btn-ghost{background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.04);padding:8px 12px;border-radius:8px;text-decoration:none}
 .premium-card{width:420px;margin:60px auto;padding:28px;border-radius:14px;text-align:center;background:var(--card)}
 .energy-row{margin-bottom:12px}.bar{height:10px;background:rgba(255,255,255,0.02);border-radius:8px;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,var(--accent),#0066ff)}
 .lead{color:#cdeefb}
+.wrap{max-width:720px;margin:60px auto;padding:18px}
+.intro .lead{color:#9fe3ff}
+.time-row{display:flex;gap:12px}
+label{display:block;margin-bottom:10px}
+input[type="text"], input[type="date"], select{width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:#031d26;color:#e7fbff}
 @media(max-width:640px){.container{padding:12px}.premium-card{width:90%}}
